@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>blog-list</title>
+</head>
+<body>
+
+<div class="col-lg-8" th:fragment="blog-list-fragment">
+    <div class="main-content-area blog-list">
+        <div class="row">
+
+            <th:block th:if="${blogPageResult!=null}">
+                <th:block th:each="blog,iterStat:${blogPageResult.list}">
+                    <div class="col-lg-12">
+                        <div class="post-item hover-item">
+                            <div class="post-content">
+                                <ul class="post-meta">
+                                    <li><i class="fa fa-bookmark" aria-hidden="true"></i>
+                                        <a th:href="@{'/category/'+${blog.blogCategoryName}}" th:text="${blog.blogCategoryName}"></a>
+                                    </li>
+                                    <li><i class="fa fa-eye" aria-hidden="true"></i>
+                                        <span th:text="${blog.blogViews+' '+'Views'}"></span>
+                                    </li>
+                                    <li><i class="fa fa-user-circle" aria-hidden="true"></i>
+                                        <span th:text="${'Post by  '+configurations.get('yourName')}"></span>
+                                    </li>
+                                </ul>
+                                <h3><a th:href="@{'/blog/' + ${blog.blogId}}" th:text="${blog.blogTitle}">.</a></h3>
+                                <a th:href="@{'/blog/' + ${blog.blogId}}" class="post-btn">Read More</a>
+                                <span id="port-date"
+                                      th:text="${#dates.format(blog.createTime, 'yyyy-MM-dd')}">
+                                </span>
+                            </div>
+                        </div>
+                    </div><!-- post-item end -->
+                </th:block>
+            </th:block>
+
+        </div>
+    </div>
+
+
+    <nav class="d-pagination" aria-label="Page navigation example">
+        <th:block th:if="${null != blogPageResult}">
+            <ul class="pagination">
+                <li class="page-item">
+                    <a class="page-link"
+                       th:href="@{${blogPageResult.currPage==1}?'##':'/page/' + ${blogPageResult.currPage-1}}">
+                        <i class="fa fa-angle-left" aria-hidden="true"></i>
+                    </a>
+                </li>
+                <li class="page-item" th:if="${blogPageResult.currPage-3 >=1}">
+                    <a class="page-link" href="#" th:href="@{'/page/' + ${blogPageResult.currPage-3}}"
+                       th:text="${blogPageResult.currPage -3}">
+                        -3
+                    </a>
+                </li>
+                <li class="page-item" th:if="${blogPageResult.currPage-2 >=1}">
+                    <a class="page-link" href="#" th:href="@{'/page/' + ${blogPageResult.currPage-2}}"
+                       th:text="${blogPageResult.currPage -2}">
+                        -2
+                    </a>
+                </li>
+                <li class="page-item" th:if="${blogPageResult.currPage-1 >=1}">
+                    <a class="page-link" href="#" th:href="@{'/page/' + ${blogPageResult.currPage-1}}"
+                       th:text="${blogPageResult.currPage -1}">
+                        -1
+                    </a>
+                </li>
+                <li class="page-item active">
+                    <a class="page-link" href="#" th:text="${blogPageResult.currPage}">
+                        0
+                    </a>
+                </li>
+                <li class="page-item" th:if="${blogPageResult.currPage+1 <= blogPageResult.totalPage}">
+                    <a class="page-link" th:href="@{'/page/' + ${blogPageResult.currPage+1}}"
+                       th:text="${blogPageResult.currPage +1}">
+                        -1
+                    </a>
+                </li>
+                <li class="page-item" th:if="${blogPageResult.currPage+2 <= blogPageResult.totalPage}">
+                    <a class="page-link" th:href="@{'/page/' + ${blogPageResult.currPage+2}}"
+                       th:text="${blogPageResult.currPage +2}">
+                        -1
+                    </a>
+                </li>
+                <li class="page-item" th:if="${blogPageResult.currPage+3 <= blogPageResult.totalPage}">
+                    <a class="page-link" th:href="@{'/page/' + ${blogPageResult.currPage+3}}"
+                       th:text="${blogPageResult.currPage +3}">
+                        -1
+                    </a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link"
+                       th:href="@{${blogPageResult.currPage==blogPageResult.totalPage}?'##':'/page/' + ${blogPageResult.currPage+1}}">
+                        <i class="fa fa-angle-right" aria-hidden="true"></i>
+                    </a>
+                </li>
+            </ul>
+        </th:block>
+    </nav>
+
+
+</div>
+
+</body>
+</html>
