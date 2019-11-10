@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Side</title>
+</head>
+<body>
+
+<div class="col-lg-4" th:fragment="side-fragment">
+    <aside class="sidebar">
+        <div class="widget">
+            <div class="widget-wrapper">
+                <form class="widget-search" action="/search" method="post">
+                    <input id="keyword" type="search" name="keyword" placeholder="Search Here">
+                    <button id="keywordSearchButton"  class="search-btn" type="submit" style="cursor: pointer">
+                        <i class="fa fa-search" aria-hidden="true"></i>
+                    </button>
+                </form>
+            </div>
+        </div><!-- widget end -->
+        <div class="widget">
+            <div class="widget-header">
+                <h4>Category</h4>
+            </div>
+            <div class="widget-wrapper">
+                <ul class="post-category">
+                    <th:block th:if="${categories!=null}">
+                        <th:block th:each="category:${categories}">
+                            <li>
+                                <a th:href="@{'/category/'+${category.categoryName}}">
+                                    [[${category.categoryName}]]<span>([[${category.categoryRank}]])</span>
+                                </a>
+                            </li>
+                        </th:block>
+                    </th:block>
+                </ul>
+            </div>
+        </div><!-- widget end -->
+        <div class="widget">
+            <div class="widget-header">
+                <h4>Recent Post</h4>
+            </div>
+            <div class="widget-wrapper">
+                <div class="small-post-list">
+                    <th:block th:if="${newBlogs!=null}">
+                        <th:block th:each="newBlog:${newBlogs}">
+                            <div class="post-item">
+                                <div class="post-content">
+                                    <h6><a th:href="@{'/blog/' + ${newBlog.blogId}}" th:text="${newBlog.blogTitle}"></a></h6>
+                                </div>
+                            </div><!-- post-item end -->
+                        </th:block>
+                    </th:block>
+                </div>
+            </div>
+        </div><!-- widget end -->
+        <div id="post-tags"  class="widget">
+            <div class="widget-header">
+                <h4>Post Tags</h4>
+            </div>
+            <div class="widget-wrapper">
+                <ul class="post-tags">
+                    <th:block th:if="${hotTags!=null}">
+                        <th:block th:each="hotTag:${hotTags}">
+                            <li><a th:href="@{'/tag/'+${hotTag.tagName}}" th:text="${hotTag.tagName+' ('+hotTag.tagCount+')'}"></a>
+                            </li>
+                        </th:block>
+                    </th:block>
+
+                </ul>
+            </div>
+        </div><!-- widget end -->
+    </aside>
+</div>
+
+
+
+</body>
+</html>
